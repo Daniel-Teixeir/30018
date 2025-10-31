@@ -1,37 +1,50 @@
 package br.edu.ifpr.gep.model;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import br.edu.ifpr.gep.model.utils.EmissorTypes;
 
 /**
  * Classe que representa uma Portaria no sistema.
- * Contém informações sobre o emissor, número, data de publicação e membro relacionado.
+ * Persistida como documento no MongoDB.
  */
+@Document(collection = "portarias")
 public class Portaria {
-    private EmissorTypes emissor;   // Agora utiliza o Enum EmissorTypes
-    private Integer numero;         // Número da Portaria
-    private LocalDate publicacao;   // Data da publicação
-    private String membro;          // Nome do membro associado
 
+    @Id
+    private String id; // MongoDB usa String para ObjectId
+
+    @Field("emissor")
+    private EmissorTypes emissor; // Armazena o enum diretamente (serializa como nome ou value)
+
+    @Field("numero")
+    private Integer numero;
+
+    @Field("publicacao")
+    private LocalDate publicacao;
+
+    @Field("membro")
+    private String membro;
+
+    // Construtor vazio (necessário para o MongoDB)
     public Portaria() {}
 
-    @JsonCreator
-    public Portaria(@JsonProperty("emissor") Integer emissor,
-                    @JsonProperty("numero") Integer numero,
-                    @JsonProperty("publicacao") LocalDate publicacao,
-                    @JsonProperty("membro") String membro) {
-        this.emissor = EmissorTypes.fromValue(emissor); // Converte número em Enum
+    // Construtor com campos
+    public Portaria(EmissorTypes emissor, Integer numero, LocalDate publicacao, String membro) {
+        this.emissor = emissor;
         this.numero = numero;
         this.publicacao = publicacao;
         this.membro = membro;
     }
 
     // Getters e Setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
     public EmissorTypes getEmissor() { return emissor; }
     public void setEmissor(EmissorTypes emissor) { this.emissor = emissor; }
 
@@ -46,7 +59,8 @@ public class Portaria {
 
     @Override
     public String toString() {
-        return "Portaria[emissor=" + (emissor != null ? emissor.getNome() : null) +
+        return "Portaria[id=" + id +
+                ", emissor=" + (emissor != null ? emissor.getNome() : null) +
                 ", numero=" + numero +
                 ", publicacao=" + publicacao +
                 ", membro=" + membro + "]";
@@ -54,17 +68,18 @@ public class Portaria {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || getClass() != obj.getClass()) return false;
         if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
         Portaria other = (Portaria) obj;
-        return Objects.equals(emissor, other.emissor) &&
-                Objects.equals(numero, other.numero) &&
-                Objects.equals(publicacao, other.publicacao) &&
-                Objects.equals(membro, other.membro);
+        return java.util.Objects.equals(id, other.id) &&
+                java.util.Objects.equals(emissor, other.emissor) &&
+                java.util.Objects.equals(numero, other.numero) &&
+                java.util.Objects.equals(publicacao, other.publicacao) &&
+                java.util.Objects.equals(membro, other.membro);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(emissor, numero, publicacao, membro);
+        return java.util.Objects.hash(id, emissor, numero, publicacao, membro);
     }
 }

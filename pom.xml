@@ -5,6 +5,14 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- ADICIONE ESTE PARENT -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.4</version>
+        <relativePath/>
+    </parent>
+
     <groupId>br.edu.ifpr</groupId>
     <artifactId>gep2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -13,8 +21,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
         <java.version>21</java.version>
-        <javafx.version>21</javafx.version>
-        <jackson.version>2.20.0</jackson.version> <!-- Versão estável mais recente -->
+        <javafx.version>23.0.2</javafx.version>
+        <!-- Remova jackson.version: o Spring Boot já gerencia -->
     </properties>
 
     <dependencies>
@@ -30,56 +38,39 @@
             <version>${javafx.version}</version>
         </dependency>
 
-        <!-- Jackson -->
+        <!-- Spring Boot + MongoDB -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
+
+        <!-- Spring Boot Web (opcional, mas útil para APIs) -->
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- REMOVA ou comente o driver puro (conflita com o do Spring Boot) -->
+        <!--
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>5.6.1</version>
+        </dependency>
+        -->
+
+        <!-- Jackson já vem com o Spring Boot -->
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Compilador -->
+            <!-- Spring Boot Maven Plugin (OBRIGATÓRIO para apps Spring Boot) -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-                <configuration>
-                    <release>${maven.compiler.release}</release>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Shade Plugin (gera um JAR único executável) -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>br.edu.ifpr.gep.aplicacao.List004Principal01</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- JavaFX Maven Plugin (permite rodar com: mvn javafx:run) -->
+            <!-- JavaFX Plugin (mantido) -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
@@ -89,15 +80,8 @@
                 </configuration>
             </plugin>
 
-            <!-- Exec Plugin (alternativa: mvn exec:java) -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <mainClass>br.edu.ifpr.gep.aplicacao.List004Principal01</mainClass>
-                </configuration>
-            </plugin>
+            <!-- REMOVA maven-shade-plugin se usar Spring Boot -->
+            <!-- O spring-boot-maven-plugin já gera um JAR executável com todas as dependências -->
         </plugins>
     </build>
 </project>

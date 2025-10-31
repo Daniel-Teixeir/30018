@@ -11,8 +11,6 @@
 ### Melhorias Esteticas:
 
 - Mudar o design para algo mais moderno
-  - Mudar cor
-  - Designer pré-pronto
 - Adicionar uma opção de mudar a cor
 
 **A adicionar mais melhorias!**

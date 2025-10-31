@@ -4,6 +4,11 @@ module gep {  // Ou o nome do seu módulo
     requires java.desktop;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.datatype.jsr310;
+    requires spring.data.mongodb;
+    requires spring.data.commons;
+    requires spring.boot.autoconfigure;
+    requires spring.boot;
+    requires spring.context;
 
     opens br.edu.ifpr.gep.aplicacao to javafx.fxml;
     opens br.edu.ifpr.gep.view to javafx.fxml;
