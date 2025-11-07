@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+//import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
@@ -39,7 +39,7 @@ public class PortariaRepository {
      */
     private PortariaRepository() {
         // Registrar módulo para LocalDate
-        objectMapper.registerModule(new JavaTimeModule());
+        //objectMapper.registerModule(new JavaTimeModule());
 
         // Configurar para serializar LocalDate corretamente
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);

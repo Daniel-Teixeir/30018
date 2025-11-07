@@ -1,20 +1,33 @@
-module gep {  // Ou o nome do seu módulo
+module gep {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
-    requires com.fasterxml.jackson.databind;
-    requires com.fasterxml.jackson.datatype.jsr310;
-    requires spring.data.mongodb;
-    requires spring.data.commons;
-    requires spring.boot.autoconfigure;
-    requires spring.boot;
-    requires spring.context;
 
-    opens br.edu.ifpr.gep.aplicacao to javafx.fxml;
-    opens br.edu.ifpr.gep.view to javafx.fxml;
-    opens br.edu.ifpr.gep.model.repository;
-    opens br.edu.ifpr.gep.model to com.fasterxml.jackson.databind, javafx.base;  // Para TableView reflection
+    // Spring Boot
+    requires spring.boot;
+    requires spring.boot.autoconfigure;
+    requires spring.context;
+    requires spring.beans;
+
+    // MongoDB (Spring Data)
+    requires spring.data.mongodb;
+    requires org.mongodb.driver.core;
+    requires org.mongodb.driver.sync.client;
+    requires org.mongodb.bson;
+
+    // JWT
+    requires jjwt.api;
+    requires jjwt.impl;
+    requires com.fasterxml.jackson.databind;
+
+    // BCrypt
+    requires jbcrypt;
+    requires spring.data.commons;
+
+    // Abre pacotes para reflexão
+    opens br.edu.ifpr.gep.aplicacao to javafx.fxml, spring.core, com.fasterxml.jackson.databind;
+    opens br.edu.ifpr.gep.model to spring.core, com.fasterxml.jackson.databind, javafx.base;
 
     exports br.edu.ifpr.gep.aplicacao;
-    exports br.edu.ifpr.gep.view;
+    exports br.edu.ifpr.gep.model;
 }
